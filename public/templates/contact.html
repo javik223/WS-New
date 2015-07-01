@@ -1,0 +1,40 @@
+{% extends "_layout" %}
+
+{% block content %}
+	<section class="pageTitle nmb">
+		<p><strong>Let's Talk</strong></p>
+		
+		<div class="row">
+			<h1 class="col m-6-12 end">Drop us a line, say hello, we'd love to hear you</h1>
+		</div>
+	</section>
+
+	<section class="container container-gray">
+		<div class="row mt-pad">
+			<div class="col m-5-12 l-3-12">
+				{% set telephones = contact.telephone|split('br') %}
+					<p class="biggest">
+						{% for item in telephones %}
+						    {{ item|striptags|replace({'/>': ''}) }} <br/>
+						{% endfor %}
+						</p>
+			</div>
+
+			<div class="col m-3-12 l-3-12 end m-offset-1 end">
+				<p>Talk to us, send a shout-out whatever it is we can make you smile <br>
+				<span class="bigger">{{ contact.helloEmail }}</span>
+				</p>
+
+
+				<p>Have an exciting project and want us to collaborate? or simply straight to business.
+				<span class="bigger">{{ contact.businessEmail }}</span>
+				</p>
+
+				<p class="bpb"></p>
+
+				<h4><strong>The W&S Home</strong></h4>
+				{{ contact.address }}
+			</div>
+		</div>
+	</section>
+{% endblock %}

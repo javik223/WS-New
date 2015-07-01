@@ -3,7 +3,7 @@
 	float: left;
 	margin-top: $padding * 8;
 	margin-bottom: $padding * 10;
-	//@include transform(translateZ(0));
+	@include transform(translateZ(0));
 
 	.slogan {
 		letter-spacing: rem-calc(4);

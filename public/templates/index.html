@@ -1,0 +1,37 @@
+{% extends "_layout" %}
+
+{% block content %}
+	{% include 'home/_teaser' %}
+
+{% set slides = craft.entries.find({
+  section:    'homeBanner',
+  limit:      '5'
+}) %}
+
+	<div class="slides_wrapper">
+		<section class="slides cycle-slideshow" data-cycle-fx="fade" data-cycle-speed="2000" data-cycle-timeout="4000" data-cycle-slides="> div" data-cycle-prev=".slide-prev" data-cycle-next=".slide-next">
+
+		{% for slide in slides %}
+		    <div class="slide">
+			<div class="slide_text mt-pad">
+				<p class="slide_header">{{ slide.workClient }}</p>
+				<h2 class="slide_teaserText">{{ slide.workBannerSummary|striptags }}</h2>
+			</div>
+			<div class="bg" style="background-image: url('{{ slide.workBannerImage.first().url }}');" data-title="{{ slide.title }} - {{ slide.workBannerSummary }}"></div>
+		</div>
+		{% endfor %}
+	</section>
+
+	<div class="slides_control">
+		<div class="row">
+			<span class="icon-arrow-left slide-prev"></span>
+			<span class="icon-arrow-right slide-next"></span>
+		</div>
+	</div>
+
+	</div>
+
+	<a class="view-all text-center" href="/works" title="Works by Witts & Stratts (W&S)">
+		<h2>view all projects</h2>
+	</a>
+{% endblock %}

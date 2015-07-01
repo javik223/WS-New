@@ -7,7 +7,7 @@
 	padding: $padding;
 	float: left;
 	//overflow-x: hidden;
-	//@include transform(translateZ(0));
+	@include transform(translateZ(0));
 
 	@media #{$medium-up} {
 		padding-top: $padding * 4;

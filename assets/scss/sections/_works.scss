@@ -7,6 +7,8 @@
 	.works_wrapper {
 		@extend .row;
 		margin-bottom: -$padding;
+		@include transition(all 0.6s ease-in-out);
+		overflow: hidden;
 	}
 
 	.work {
@@ -15,6 +17,8 @@
 		float: left;
 		margin-bottom: $padding;
 		position: relative;
+		overflow: hidden;
+		@incldue perspective(rem-calc(1000));
 
 		@media #{$medium-up} {
 			width: 32%;
@@ -38,6 +42,8 @@
 
 		img {
 			float: left;
+			-webkit-font-smoothing: subpixel-antialiased;
+			background-color: color(gray-light);
 		}
 
 		&_desc {
@@ -47,6 +53,7 @@
 			padding: $padding;
 			visibility: hidden;
 			background-color: rgba(color(white), 0.9);
+			z-index: 1000;
 
 			p {
 				margin-bottom: 0;
@@ -56,6 +63,8 @@
 
 			h3 {
 				max-width: 70%;
+				text-decoration: none;
+				color: darken(color(gray), 30%);
 			}
 
 			&.bottom-left {
@@ -121,10 +130,13 @@
 		display: inline-block;
 		cursor: pointer;
 		@include transition(all 0.5s ease-in-out);
+		text-decoration: none;
+		color: color(gray);
 
 
 		&:hover {
 			@include transform(scale(1.5));
+			color: darken(color(gray), 20%);
 		}
 	}
 }
@@ -132,6 +144,11 @@
 	font-size: rem-calc(60);
 	text-align: center;
 	@extend .container;
+
+	a {
+		text-decoration: none;
+		color: color(gray);
+	}
 
 	div {
 		@include transition(background-color 0.5s linear);

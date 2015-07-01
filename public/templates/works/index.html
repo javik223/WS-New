@@ -1,0 +1,39 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+	{# Page Title #}
+	<section class="pageTitle">
+		<h1>ideas brought to life</h1>
+	</section>
+	
+	{# Works #}
+	<section class="works">
+		<div class="works_wrapper">
+			{% paginate craft.entries.section('works').limit(12) as works %}
+			
+			{% for work in works %}
+				<a class="work" href="{{ work.url }}">
+				<div class="work_desc">
+					<div class="work_desc_wrapper">
+						<p>{{ work.workClient }}</p>
+
+						<h3>{{ work.title }}</h3>
+					</div>
+				</div>
+				<div class="work_image"><img src="{{ work.thumb.first().url }}" alt="{{ work.title }}"></div>
+			</a>
+			{% endfor %}
+		</div>
+	</section>
+
+	{# Load more icon #}
+	{% if paginate.nextUrl %}
+	<a href="{{ paginate.nextUrl }}" title="load more works" class="load-more">
+		<div class="container">
+			<span class="icon-plus"></span>
+		</div>
+	</a>
+	{% endif %}
+	{% endpaginate %}
+{% endblock %}

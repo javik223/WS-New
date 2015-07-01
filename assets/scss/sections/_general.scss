@@ -40,8 +40,11 @@
 	background-color: color(white);
 }
 .bpb {
-	padding-bottom: $padding * 4;
+	padding-bottom: $padding;
 }
 ul.lists {
 	margin-bottom: $padding;
+}
+.disable-hover {
+  pointer-events: none;
 }

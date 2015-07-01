@@ -1,0 +1,169 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+{# About Page Title #}
+
+	<section class="pageTitle nmb">
+		<p><strong>About Witts &amp; Stratts</strong></p>
+		
+		<div class="row">
+			<div class="col m-10-12 l-6-12 end">
+				<h1>{{ entry.intro }}</h1>
+
+				<p class="big"><strong>BOTTOM LINE - WE GET RESULTS FOR OUR CLIENTS</strong></p>
+			</div>
+		</div>
+
+	</section>
+
+	{# Ok Pictch Gone Animation #}
+	{% include '_okpitchgone' %}
+
+
+	{# How We Work #}
+
+	{% set howWeWork = entry.howWeWork.block.first() %}
+
+	<section class="container container-gray">
+	<div class="row">
+		<div class="col m-6-12 l-4-12 mt-pad">
+			<h3>{{ entry.about }}</h3>
+		</div>
+
+		<div class="col m-6-12 l-3-12 end l-offset-1 end mt-pad">
+			<h3><strong>{{ howWeWork.heading }}</strong></h3>
+
+			{{ howWeWork.body }}
+		</div>
+	</div>
+	</section>
+
+	{# Services #}
+
+	<section class="container container-white">
+			<div class="row">
+			<div class="col m-5-12 l-4-12 mt-pad">
+				<h2>Our Services</h2>
+			</div>
+
+			{# Interactive Service #}
+			{% set serviceInteractive = entry.serviceInteractive.block.first() %}
+			<div class="col m-12-12 l-7-12">
+				<div class="col m-6-12 end mt-pad">
+				<h3><strong>{{ serviceInteractive.serviceTitle }}</strong></h3>
+
+
+				{# Interactive Services Lists #}
+				{% set serviceInteractiveLists = serviceInteractive.list %}
+				<ul class="big lists">
+					{% for item in serviceInteractiveLists %}
+					<li>{{ item.interactiveService }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+
+			{# Branding Service #}
+			{% set serviceBranding = entry.serviceBranding.block.first() %}
+			<div class="col m-6-12 end mt-pad">
+				<h3><strong>{{ serviceBranding.serviceTitle }}</strong></h3>
+
+				{# Branding Services Lists #}
+				{% set serviceBrandingLists = serviceBranding.list %}
+				<ul class="big lists">
+					{% for item in serviceBrandingLists %}
+					<li>{{ item.brandingService }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			</div>
+		</div>
+	</section>
+
+	{# Clients #}
+
+	<section class="container container-white">
+		<div class="row">
+			<div class="col m-5-12 l-4-12 mt-pad">
+				<h2>Clients</h2>
+
+				<p>{{ entry.clientsIntro }}</p>
+			</div>
+
+			<div class="col m-3-12 l-3-12 end m-offset-1 end">
+				
+			</div>
+
+			<div class="col m-3-12 l-3-12 end m-offset-1 end">
+				<h3><strong></strong></h3>
+			</div>
+		</div>
+
+		{# Client logos and information #}
+		{% set clients = entry.clients %}
+		<div class="row clientsLogos">
+			{% for item in clients %}
+			<div class="clientLogo">
+				<img src="{{ item.clientLogo.first().url() }}" alt="{{ item.clientName }}">
+			</div>
+			{% endfor %}
+		</div>
+	</section>
+
+
+	{# Thing we are not #}
+	<section class="container container-gray">
+		<div class="row">
+			<div class="col m-8-12 l-6-12 end mt-pad">
+				<h1>We are so many things - but <strong>these things, we are not.</strong></h1>
+			</div>
+		</div>
+
+		<div class="row mt-pad whatWeAreNot">
+
+			{% set TWAN = entry.thingsWeAreNot %}
+
+			{% for item in TWAN %}
+			    <div class="col m-4-12 l-3-12 {% if loop.index == 1 %}l-offset-3 {% endif %} end">
+					<h3><strong>{{ item.twanTitle }}</strong></h3>
+
+					{{ item.twanCopy }}
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+
+
+	<section class="container container-white">
+		<div class="row mt-pad">
+			<div class="col m-8-12 l-6-12 mt-pad">
+				<h1>Let's Talk. Contact Us</h1>
+
+				{{ entry.letsTalkCopy }}
+
+				<div class="row">
+					<div class="col m-6-12 end">
+						{% set telephones = contact.telephone|split('br') %}
+						<p class="bigger">
+							{% for item in telephones %}
+							    {{ item|striptags|replace({'/>': ''}) }} <br/>
+							{% endfor %}
+						</p>
+
+						<h4 class="nmb"><strong>Shoutout &amp; Hellos</strong></h4>
+						<p class="bigger">{{ contact.helloEmail }}</p>
+
+						<h4 class="nmb"><strong>Straight to Business</strong></h4>
+						<p class="bigger">{{ contact.businessEmail }}</p>
+					</div>
+
+					<div class="col m-6-12 end">
+						<h3><strong></strong></h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+{% endblock %}

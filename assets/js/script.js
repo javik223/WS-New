@@ -1,20 +1,20 @@
 $(document).ready(function(){
 	var $work = $(".work");
 
-	$work.each(function(){
-		$(this).on('mouseenter', descAnimIn)
-				.on('mouseleave', descAnimOut);
-	});
+		$('body').on('mouseenter', ".work", descAnimIn)
+				.on('mouseleave', ".work", descAnimOut);
 
 	function descAnimIn() {
 		var $elem = $(this),
 			$desc = $(this).find('.work_desc'),
+			$img = $(this).find('img'),
 			$sub = $elem.find('p'),
 			$main = $elem.find('h3');
 
 		TweenMax.set($desc, {visibility: "visible", autoAlpha: 0});
 		TweenMax.set([$sub, $main], {autoAlpha: 0});
 		TweenMax.to($desc, 1, {autoAlpha: 1});
+		TweenMax.to($img, 3, {scale: 1.2, rotationY: "-6deg", rotationX: "-6deg", transformOrigin: "top center", ease:Expo.easeOut});
 		TweenMax.fromTo($sub, 1, {autoAlpha: 0, yPercent: "100%"}, {autoAlpha: 1, yPercent: "0%", ease:Power4.easeInOut, force3D: true} );
 		TweenMax.fromTo($main, 1, {autoAlpha: 0, yPercent: "100%"}, {autoAlpha: 1, yPercent: "0%", ease:Power4.easeInOut, force3D: true} );
 		
@@ -23,12 +23,14 @@ $(document).ready(function(){
 	function descAnimOut() { 
 		var $elem = $(this),
 			$desc = $(this).find('.work_desc'),
+			$img = $(this).find('img'),
 			$sub = $elem.find('p'),
 			$main = $elem.find('h3');
 
 		TweenMax.fromTo($main, 1, {autoAlpha: 1, yPercent: "0%"}, {autoAlpha: 0, yPercent: "100%", ease:Power4.easeInOut, force3D: true});
 		TweenMax.fromTo($sub, 1, {autoAlpha: 1, yPercent: "0%"}, {autoAlpha: 0, yPercent: "100%", ease:Power4.easeInOut, force3D: true} );
 		TweenMax.to($desc, 1, {autoAlpha: 1});
+		TweenMax.to($img, 3, {scale: 1, rotationY: "0deg", rotationX: "0deg", transformOrigin: "top center", ease:Expo.easeOut});
 		TweenMax.set([$sub, $main], {autoAlpha: 0, onComplete: function(){
 			TweenMax.to($desc, 1, {autoAlpha: 0});
 		}});
@@ -136,4 +138,77 @@ $(document).ready(function(){
 		});
 	}
 
+	$loadMore = $(".load-more");
+
+	$loadMore.on('click', function(e){
+		$href = $(this).attr('href');
+		loadWorks($href);
+
+		e.preventDefault();
+	});
+
+	// Load more works, and append to current page
+	function loadWorks(link) {
+		$.ajax({
+			url: link,
+			beforeSend: function() {
+				showSpinner();
+			}
+		}).done(function(data){
+			var results = {},
+				docFrag = document.createElement("div");
+			docFrag.innerHTML = data;
+
+			// Get all works item
+			results.contents = docFrag.querySelector(".works_wrapper").innerHTML;
+
+			// get next link
+			results.nextLink = (docFrag.querySelectorAll(".load-more").length > 0) ? docFrag.querySelector(".load-more").getAttribute('href') : '';
+
+			insertContent(results);
+		});
+	}
+
+	function showSpinner() {
+		$loadMore.html('<div class="spinner"></div>');
+	}
+
+	function removeSpinner() {
+		$loadMore.html('<div class="container"><span class="icon-plus"></span></div>');
+	}
+
+	function insertContent(obj) {
+		var $loadMore = $(".load-more"),
+			$worksWrapper = $(".works_wrapper");
+
+			if (obj.nextLink === '' ) {
+				$loadMore.attr('href', '');
+				TweenMax.to($loadMore, 0.3, {autoAlpha: 0});
+			} else {
+				$loadMore.attr('href', obj.nextLink);
+				removeSpinner();
+			}
+			
+			var v = $(obj.contents).appendTo($worksWrapper).css({opacity: 0}).addClass('justadded');
+
+			TweenMax.staggerFromTo(".justadded", 1, {autoAlpha: 0, yPercent: "20%"}, {autoAlpha: 1, yPercent: "0%", z:0.001, className: "-=justadded", force3D: true}, 0.2);
+			
+
+	}
+
 });
+
+
+var body = document.body,
+    timer;
+
+window.addEventListener('scroll', function() {
+  clearTimeout(timer);
+  if(!body.classList.contains('disable-hover')) {
+    body.classList.add('disable-hover');
+  }
+  
+  timer = setTimeout(function(){
+    body.classList.remove('disable-hover');
+  },200);
+}, false);

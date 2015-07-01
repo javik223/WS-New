@@ -1,0 +1,70 @@
+{% extends "_layout" %}
+
+{% block content %}
+
+	{# Page Title #}
+	<section class="pageTitle nmb">
+		<p><strong>{{ entry.workClient }}</strong></p>
+		
+		<div class="row">
+			<h1 class="col m-6-12 end">{{ entry.title }}</h1>
+		</div>
+	</section>
+
+
+	<div class="works">
+		<div class="works_wrapper">
+			<div class="description">
+				<div class="row work_summaryGroup">
+					<div class="col m-5-12 l-4-12 m-offset-2 l-offset-3 work_synopsis mt-pad">
+						{{ entry.workSummary }}
+					</div>
+
+					<div class="col m-4-12 l-3-12 categories mt-pad">
+
+						{# Work Categories #}
+
+						{% set workCategories = entry.workCategory %}
+
+						<p>
+						{% for workCategory in workCategories %}
+						   {{ workCategory.title }} {% if loop.index != loop.last %} / {% endif %} 
+						{% endfor %}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{# Showcase #}
+	<div class="container showcase">
+		{% set workAssets = entry.workAssets %}
+
+		{% for workAsset in workAssets %}
+		    <div class="container" data-title="{{ workAsset.image.first().url() }}">
+		    	<img src="{{ workAsset.image.first().url() }}" alt="{{ workAsset.image.first().title }}">
+		    </div>
+		{% endfor %}
+	</div>
+
+	{% set params = {
+		section: 'works',
+		order: title
+	} %}
+
+	{% set prevWork = entry.getPrev(params) %}
+	{% set nextWork = entry.getNext(params) %}
+
+	<div class="worksPrevNext">
+		<div class="col s-6-12">
+			<a href="{{ prevWork.url }}" title="{{ prevWork.title }}"><span class="icon-arrow-left"></span></a>
+		</div>
+
+		<div class="col s-6-12">
+			<a href="{{ nextWork.url }}" title="{{ nextWork.title }}"><span class="icon-arrow-right"></span></a>
+		</div>
+	</div>
+	
+	
+{% endblock %}
