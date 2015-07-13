@@ -57,13 +57,17 @@
 	{% set nextWork = entry.getNext(params) %}
 
 	<div class="worksPrevNext">
-		<div class="col s-6-12">
+		{% if prevWork %}
+		<div class="col s-6-12 end">
 			<a href="{{ prevWork.url }}" title="{{ prevWork.title }}"><span class="icon-arrow-left"></span></a>
 		</div>
+		{% endif %}
 
+		{% if nextWork %}
 		<div class="col s-6-12">
 			<a href="{{ nextWork.url }}" title="{{ nextWork.title }}"><span class="icon-arrow-right"></span></a>
 		</div>
+		{% endif %}
 	</div>
 	
 	
