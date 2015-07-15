@@ -1,3 +1,4 @@
+{% cache for 1 day %}
 {% extends "_layout" %}
 
 {% block content %}
@@ -37,3 +38,4 @@
 	{% endif %}
 	{% endpaginate %}
 {% endblock %}
+{% endcache %}
