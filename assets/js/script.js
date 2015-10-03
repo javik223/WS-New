@@ -1,5 +1,8 @@
 $(document).ready(function(){
+	// Initialize scroll reveal
+
 	var $work = $(".work");
+		$('.slides_wrapper').html();
 
 		$('body').on('mouseenter', ".work", descAnimIn)
 				.on('mouseleave', ".work", descAnimOut);
@@ -43,16 +46,19 @@ $(document).ready(function(){
 		// slides into view from the top. This implementation uses
 		// SVG clip-path instead of the regular translate.
 		var menuTimeline = new TimelineMax({yoyo: true, paused: true, force3D: true}),
-			menuBtn = $(".nav-icon"),
+			menuBtn = $(".nav-icon"), // Hamburger Menu Icon
 			offCanvasMenu = $(".offCanvasMenu"),
-			navLists = offCanvasMenu.find('li'),
-			otherElems = [offCanvasMenu.find('h4'), offCanvasMenu.find('p')],
+			navLists = offCanvasMenu.find('li'), // Individual navigation elements 
+			otherElems = [offCanvasMenu.find('h4'), offCanvasMenu.find('p')], // Miscellenous elements: Contact
 			wW = $(window).width(),
 			wH = $(window).height();
 
+		// When the window loads, we assume that the offcanvas menu is inactive
 		this.isOpen = isOpen = false;
 
-
+		// Initialize menu with Menu's complete state.
+		// Menu State: 	-> Animate the height of the offcanvas Menu element from zero(0) to actual height
+		// 				-> Staggerlink items from opacity of zero(0) and a positive yOffset to an opacity of one(1) and the original yPosition
 		var init = function() {
 			menuTimeline
 					.fromTo(offCanvasMenu, 0.3, {autoAlpha: 0, yPercent: "-100%"}, {autoAlpha: 1, yPercent: "0%", force3D: true})
@@ -61,7 +67,7 @@ $(document).ready(function(){
 					.staggerFromTo(otherElems, 0.3, {autoAlpha: 0, yPercent: '50%'}, {autoAlpha: 1, yPercent: '0%', force3D: true}, 0.1, "-=0.2");
 
 			// Listen for click event on Menu Icon and activate menu
-			menuBtn.on('click', showHideMenu);
+			menuBtn.on('click', showOrHideMenu);
 		};
 
 		function showMenu() {
@@ -74,8 +80,9 @@ $(document).ready(function(){
 			menuTimeline.reverse();
 		}
 
-		function showHideMenu() {
-			// Toggle closed an open for the Menu Icon	
+		// Show or Hide the Off Canvas Menu depending on the current state.
+		function showOrHideMenu() {
+			// Toggle Menu Btn icon when the Menu Button is clicked
 			menuBtn.toggleClass('close-icon');
 
 			if (isOpen === false) {
@@ -94,9 +101,15 @@ $(document).ready(function(){
 
 	Menu.init();
 
+	// HOME TEASER
+	// Shows the animation on the homepage
+	// Constructor
 	var homeTeaser = function() {
+		var $teaser = $("#teaser");
+
+		// Initialize the playhead and aggregate the various lines of the teaser text;
+		// The SVG file contains a class name for each individual text.
 		this.playHead = new TimelineMax({yoyo: true, paused: true});
-		$teaser = $("#teaser");
 		this.$teaserElems = {
 			main: $teaser,
 			brands: $teaser.find(".brands"),
@@ -106,27 +119,34 @@ $(document).ready(function(){
 			shapes: $teaser.find("path")
 		};
 
+		// Initialize the teaser.
 		this.init();
 	};
 
+	// Animation sequence settings for the homepage teaser
 	homeTeaser.prototype.init = function() {
 		this.playHead.set(this.$teaserElems.main, {autoAlpha: 1});
 		this.playHead.staggerFromTo(this.$teaserElems.shapes, 3, { drawSVG:'0', fill: "transparent", stroke: "gray", scale: 1.1}, { drawSVG: true, fill: "#DBDBDB", stroke: "transparent", scale: 1}, 0.1);
 		this.playHead.play();
 	};
 
-	myTeaser = new homeTeaser();
+	// If we are current on the homepage, animate the homepage teaser.
+	var myTeaser = (("#teaser").length > 0) ? new homeTeaser() : "";
 
 	function animateOkPitchGone() {
 		var $okPitchGone = $("#okPitchGone"),
 			$okPitchGonePaths = $okPitchGone.find("path"),
+
+			// OPG => Ok Pitch Gone
 			OPG = new TimelineMax({yoyo: true, paused: true});
 
+			// Initialize complet animation sequence
 			OPG
 				.set($okPitchGone, {autoAlpha: 1})
 				.staggerFromTo($okPitchGonePaths, 3, { drawSVG:'0', fill: "transparent", stroke: "gray", scale: 1.1}, { drawSVG: true, fill: "#DBDBDB", stroke: "transparent", scale: 1}, 0.1)
 				.play();
 	}
+
 
 	if ($("#okPitchGone").length > 0) {
 		var waypoint = $("#okPitchGone").waypoint({
@@ -138,7 +158,7 @@ $(document).ready(function(){
 		});
 	}
 
-	$loadMore = $(".load-more");
+	var $loadMore = $(".load-more");
 
 	$loadMore.on('click', function(e){
 		$href = $(this).attr('href');
